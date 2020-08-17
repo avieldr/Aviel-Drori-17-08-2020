@@ -5,20 +5,22 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import MainScreen from './src/screens/MainScreen';
 import FavoritesScreen from './src/screens/FavoritesScreen';
+import DebugScreen from './src/screens/DebugScreen';
 
-// import { Provider as WeatherProvider } from './src/context/WeatherContext';
+import { Provider as WeatherProvider } from './src/context/WeatherContext';
 
 const tabNavigator =  createBottomTabNavigator({
   Main: MainScreen,
   Favorites: FavoritesScreen,
+  Debug: DebugScreen
 })
 
 
 const App = createAppContainer(tabNavigator);
 export default () => {
   return (
-    // <WeatherProvider>
+    <WeatherProvider>
       <App/>
-    // </WeatherProvider>
+    </WeatherProvider>
   );
 };
