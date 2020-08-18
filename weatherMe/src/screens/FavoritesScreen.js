@@ -1,21 +1,29 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { StyleSheet, Text, View, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { FontAwesome } from '@expo/vector-icons'
-import LocThumbnail from '../components/FavoritesLocThumbnail'
-
+import { Context as WeatherContext } from '../context/WeatherContext'
+import LocItem from '../components/FavoritesLocThumbnail'
 const FavoritesScreen = () => {
-    return <SafeAreaView>
-        <LocThumbnail 
-            id='1'
-            name="Jerusalem"
-            currentWeather="Sunny"
+    const { state: { favoritesList } } = useContext(WeatherContext)
+
+
+    const renderItem = ({ item }) => {
+        return <LocItem 
+            name={item.LocalizedName}
+            itemKey={item.Key}
         />
-        <LocThumbnail 
-            id='2'
-            name="Tel Aviv"
-            currentWeather="Hot like hell"
-        />
+    }
+
+    return <SafeAreaView style={styles.container}>
+
+
+            <FlatList
+                data={favoritesList}
+                renderItem={renderItem}
+                keyExtractor={item => item.Key}
+            />
+     
     </SafeAreaView>
 }
 
@@ -26,7 +34,24 @@ FavoritesScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        marginTop: 40,
+        borderRightColor: 'black',
+        borderWidth: 1
+    },
+    item: {
+        width: '80%',
+        minHeight: 100,
+        borderColor: 'black',
+        borderWidth: 1,
+        alignSelf: 'center',
+        marginTop: 20
+    },
+    listStyle: {
+        flex: 1,
+    }
 });
 
 export default FavoritesScreen;
