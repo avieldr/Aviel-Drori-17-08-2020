@@ -12,17 +12,22 @@ import { Context as WeatherContext } from '../context/WeatherContext';
 
 import CurrentStatus from '../components/CurrentStatus'
 import ToggleFavoritesButton from '../components/ToggleFavoritesButton'
+import ToggleTempUnitsButton from '../components/ToggleTempUnitsButton'
+import AsyncStorage from '@react-native-community/async-storage'
+
 
 
 const MainScreen = () => {
     const { state: { currentLocation, currentConditions, favoritesList },
         setCurrentLocation,
         getCurrentConditions,
-        get5DaysDailyForecasts
+        get5DaysDailyForecasts,
+        updateFavorites
     } = useContext(WeatherContext)
 
     
     useEffect(() => {
+        loadFavorites()
         setCurrentLocation(jerusalemLocationExample)
     }, []);
 
@@ -31,36 +36,60 @@ const MainScreen = () => {
         get5DaysDailyForecasts(currentLocation?.Key)
     }, [currentLocation]);
 
+    const loadFavorites = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@favorites_list')
+            if(value !== null) {
+              // value previously stored
+              updateFavorites(JSON.parse(value))
+            }
+          } catch(e) {
+            // error reading value
+          }
+    }
     
     
     return <SafeAreaView style={styles.container}>
         <ScrollView>
-        <SearchInput />
+            <SearchInput />
 
-<View style={styles.bodyContainer}>
+            <View style={styles.bodyContainer}>
 
-    <View style={styles.headContainer}>
-        <Text style={styles.locationNameHeader}>{ currentLocation?.LocalizedName || null }</Text>
-        <ToggleFavoritesButton />
-    </View>
-    
-    <CurrentStatus />
-    
-    <View style={styles.forecastsList}>
-        <ForecastsList />
-    </View>
+                <View style={styles.mainFrame}>
+                    <View style={styles.headContainer}>
+                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                        <View style={{ marginRight: 20}}>
+                            <Text style={styles.locationNameHeader}>{ currentLocation?.LocalizedName || null }</Text>
+                            <Text style={styles.locationNameSecondary}>{ currentLocation?.Country?.LocalizedName || null }</Text>
+                        </View>
+                        
+                        <View style={{ height: 40, width: 40 }}>
+                            <ToggleFavoritesButton />
+                        </View>
+                        </View>
 
-</View> 
+                        <View style={{ height: 40, width: 70 }}>
+                            <ToggleTempUnitsButton />
+                        </View>
+                    </View>
+
+                    <CurrentStatus />
+
+                </View>
+                <View style={styles.forecastsList}>
+                    <ForecastsList />
+                </View>
+
+            </View> 
 
         </ScrollView>
         
-
     </SafeAreaView> 
     
 }
 
 MainScreen.navigationOptions = {
-    title: 'Main',
+    title: 'Home',
     tabBarIcon: <FontAwesome name="home" size={20} />,
     
 };
@@ -70,7 +99,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
         padding: 10,
-        marginTop: 20
+        marginTop: 20,
+        backgroundColor: '#B2F3E8',
     },
     bodyContainer: {
         flex: 1,
@@ -84,7 +114,10 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        paddingBottom: 10
     },
     currentTempStatus: { 
         flex: 3,
@@ -111,8 +144,21 @@ const styles = StyleSheet.create({
     },
     locationNameHeader: {
         flex: 1,
-        paddingLeft: 10,
+        fontSize: 28,
+    },
+    locationNameSecondary: {
+        flex: 1,
         fontSize: 20,
+        color: 'gray'
+    },
+    mainFrame: {
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        
+        marginBottom: 20
     }
 });
 

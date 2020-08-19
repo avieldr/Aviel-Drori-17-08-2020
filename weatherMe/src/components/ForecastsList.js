@@ -2,11 +2,12 @@ import React, { useContext } from 'react'
 import { StyleSheet, View, TouchableOpacity, Text, Image } from 'react-native'
 import { Input } from 'react-native-elements'
 import { Context as WeatherContext } from '../context/WeatherContext'
-import { weekDaysStr, iconImages, monthNames } from '../constants'
+import { weekDaysStr, monthNames, UNIT_CELSIUS, UNIT_FAHRENHEIT } from '../constants'
+import { iconImages } from '../resources/images'
+import { fahr2Celc, cels2Fahr } from '../commonTools'
 
 const ForecastsList = () => {
-    const { state } = useContext(WeatherContext)
-    const { fiveDaysForecasts } = state
+    const { state: { fiveDaysForecasts, tempUnit } } = useContext(WeatherContext)
 
     
     const renderForecastItem = (item) => {
@@ -36,8 +37,8 @@ const ForecastsList = () => {
                 />
 
                 <View style={styles.tempRange}>
-                <Text>{maxTemp.Value}° {maxTemp.Unit}</Text>
-                <Text style={{ color: 'gray'}}>{minTemp.Value}° {minTemp.Unit}</Text>
+                <Text>{tempUnit === UNIT_FAHRENHEIT ? maxTemp.Value : fahr2Celc(maxTemp.Value)}° {maxTemp.Unit}</Text>
+                <Text style={{ color: 'gray'}}>{tempUnit === UNIT_FAHRENHEIT ? minTemp.Value : fahr2Celc(minTemp.Value)}° {minTemp.Unit}</Text>
                 
             </View>
             </View>
@@ -55,7 +56,7 @@ const ForecastsList = () => {
             }
         
         </View>
-        :   <Text>Waiting for Data...</Text>)
+        :   <Text style={styles.noData}>Forecasts Widget: Waiting for Data...</Text>)
     
 }
 
@@ -98,6 +99,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // borderWidth: 1,
         // borderColor: 'gray'
+    },
+    noData: {
+        marginHorizontal:10,
+        marginVertical: 20
     }
 });
 

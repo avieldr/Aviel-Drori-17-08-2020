@@ -27,10 +27,14 @@ const ToggleFavoritesButton = () => {
         
                 <TouchableOpacity
                 onPress={() => toggleInFavorites(isFavorite, currentLocIdxInFavorites)}
-                style={styles.toggleFavorites}
+                style={[styles.toggleFavorites, isFavorite ? { borderColor: '#3D6290' } : { borderColor: '#B9CDE2' }]}
                 >
-                    <Text>{ isFavorite ? "Remove from Favorites" : "Add to Favorites" }</Text>
-                    <FontAwesome name={ isFavorite ? "star" : "star-o" } size={20} style={styles.iconStyle} />
+                    {
+                        isFavorite
+                        ? <FontAwesome name={ "star" } size={20} style={styles.activeIconStyle} />
+                        : <FontAwesome name={ "star-o" } size={20} style={styles.inActiveIconStyle} />
+                    }                    
+                    
                     
                 </TouchableOpacity>
 
@@ -42,18 +46,20 @@ const ToggleFavoritesButton = () => {
 
 const styles = StyleSheet.create({
     toggleFavorites: {
-        borderColor: 'green',
-        borderWidth: 2,
-        borderRadius: 8,
+        
+        borderWidth: 1,
+        borderRadius: 15,
         flex: 1, 
         flexDirection: 'row',
         alignItems: 'center',
         padding: 5,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
-    iconStyle: { 
-        marginRight: 5,
-        marginLeft: 5 
+    activeIconStyle: { 
+        color: '#3D6290'
+    },
+    inActiveIconStyle: { 
+        color: '#B9CDE2'
     }
 });
 
