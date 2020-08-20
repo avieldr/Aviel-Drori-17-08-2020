@@ -14,11 +14,11 @@ has the ability to remove items from the list and set item as main location on t
 ## 3. User Preferences - 
 enables to toggle between light/dark theme colors.
 
-![1](weatherMe/screenshots/Screenshot_20200821-015349_Expo.jpg =250x)
-![2](weatherMe/screenshots/Screenshot_20200821-015413_Expo.jpg =250x)
-![3](weatherMe/screenshots/Screenshot_20200821-015435_Expo.jpg =250x)
-![4](weatherMe/screenshots/Screenshot_20200821-015440_Expo.jpg =250x)
-![5](weatherMe/screenshots/Screenshot_20200821-015506_Expo.jpg =250x)
-![6](weatherMe/screenshots/Screenshot_20200821-015335_Expo.jpg =250x)
+![](weatherMe/screenshots/Screenshot_20200821-015349_Expo.jpg =250x)
+![](weatherMe/screenshots/Screenshot_20200821-015413_Expo.jpg =250x)
+![](weatherMe/screenshots/Screenshot_20200821-015435_Expo.jpg =250x)
+![](weatherMe/screenshots/Screenshot_20200821-015440_Expo.jpg =250x)
+![](weatherMe/screenshots/Screenshot_20200821-015506_Expo.jpg =250x)
+![](weatherMe/screenshots/Screenshot_20200821-015335_Expo.jpg =250x)
 
 
