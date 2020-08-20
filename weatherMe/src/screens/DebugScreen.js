@@ -5,15 +5,26 @@ import { Text, Button } from 'react-native-elements'
 import { FontAwesome } from '@expo/vector-icons'
 import Spacer from '../components/Spacer.js'
 import WeatherApi from '../api/weatherApi'
+import * as Location from 'expo-location';
 
 import { Context as WeatherContext } from '../context/WeatherContext'; 
 
 
 
 const DebugScreen = () => {
-    const { state } = useContext(WeatherContext)
+    const { state, setCurrentLocation } = useContext(WeatherContext)
 
-    
+    const getPosition = async () => {
+            let { status } = await Location.requestPermissionsAsync();
+            if (status !== 'granted') {
+                console.log('Permission to access location was denied');
+            }
+      
+            let location = await Location.getCurrentPositionAsync({});
+
+            const res = await WeatherApi.getGeopositionSearch()
+            setCurrentLocation(res)
+    }
     
     return <SafeAreaView>
         <Text style={{ fontSize: 48 }}>Debug Screen</Text>
@@ -60,6 +71,13 @@ const DebugScreen = () => {
                 console.log("CALL API FORECAST:")
                 const res = await WeatherApi.get5DaysDailyForecasts('213225', true)
             }}
+        />
+
+<Spacer />
+        
+        <Button 
+            title='GET POSITION'
+            onPress={() => getPosition()}
         />
     </SafeAreaView> 
     

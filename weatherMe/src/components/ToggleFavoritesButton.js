@@ -3,12 +3,15 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-elements'
 import { FontAwesome } from '@expo/vector-icons'
 import { Context as WeatherContext } from '../context/WeatherContext'
+import { theme1 } from '../resources'
 
 
 
 
 const ToggleFavoritesButton = () => {
     const { state: { favoritesList, currentLocation }, updateFavorites } = useContext(WeatherContext)
+
+    const theme = theme1
 
     if (!currentLocation?.Key) return null
     
@@ -27,12 +30,12 @@ const ToggleFavoritesButton = () => {
         
                 <TouchableOpacity
                 onPress={() => toggleInFavorites(isFavorite, currentLocIdxInFavorites)}
-                style={[styles.toggleFavorites, isFavorite ? { borderColor: '#3D6290' } : { borderColor: '#B9CDE2' }]}
+                style={[styles.toggleFavorites, isFavorite ? { borderColor: theme.activeButton } : { borderColor: theme.inactiveButton }]}
                 >
                     {
                         isFavorite
-                        ? <FontAwesome name={ "star" } size={20} style={styles.activeIconStyle} />
-                        : <FontAwesome name={ "star-o" } size={20} style={styles.inActiveIconStyle} />
+                        ? <FontAwesome name={ "star" } size={20} style={[styles.activeIconStyle, { color: theme.activeButton}]} />
+                        : <FontAwesome name={ "star-o" } size={20} style={[styles.inActiveIconStyle, { color: theme.inactiveButton}]} />
                     }                    
                     
                     
@@ -55,12 +58,7 @@ const styles = StyleSheet.create({
         padding: 5,
         justifyContent: 'center',
     },
-    activeIconStyle: { 
-        color: '#3D6290'
-    },
-    inActiveIconStyle: { 
-        color: '#B9CDE2'
-    }
+   
 });
 
 export default ToggleFavoritesButton;

@@ -4,6 +4,7 @@ import { Input } from 'react-native-elements'
 import WeatherApi from '../api/weatherApi'
 import { Feather } from '@expo/vector-icons'
 import { Context as WeatherContext } from '../context/WeatherContext'; 
+import { theme1 } from '../resources'
 
 
 
@@ -14,6 +15,7 @@ const SearchInput = () => {
         setCurrentLocation,
     } = useContext(WeatherContext)
 
+    const theme = theme1
     const minPrefLenToSuggest = 3
     
     useEffect(() => {
@@ -41,7 +43,7 @@ const SearchInput = () => {
             }}
             style={styles.suggestionLeftClickable}>
                 <Text >{item.LocalizedName}, {item.Country.LocalizedName}</Text>
-                <Feather name="arrow-up-right" size={20} color='gray' style={styles.iconRight}/>
+                <Feather name="arrow-up-right" size={20} color={theme.searchBar} style={styles.iconRight}/>
             </TouchableOpacity>
             
         
@@ -50,8 +52,10 @@ const SearchInput = () => {
     return <View>
 
         <Input
-            style={styles.input}
-            label='Search'
+            leftIcon={{ type: 'EvilIcons', name: 'search', color: theme.searchBar }}
+            rightIcon={ state.searchQuery.length > 0 
+            ? { type: 'AntDesign', name: 'close', color: theme.searchBar, onPress: () => setState({ ...state, searchQuery: '', modalVisible: false }) }
+            : null }
             placeholder='Search Location'
             value={state.searchQuery}
             onChangeText={(text) => {
@@ -68,7 +72,7 @@ const SearchInput = () => {
 
         />
         {state.modalVisible && 
-            <View style={styles.suggestionsList}>
+            <View style={[styles.suggestionsList, { borderBottomColor: theme.searchBar }]}>
             { 
                 state.searchSuggestions.length > 0
                 ? state.searchSuggestions.map((item, index) => (
@@ -89,11 +93,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         paddingBottom: 20,
         borderBottomWidth: 1,
-        borderBottomColor: 'gray'
-    },
-    input: {
-        borderColor: 'blue',
-        borderWidth: 1
     },
     suggestionItem: {
         flex: 1,

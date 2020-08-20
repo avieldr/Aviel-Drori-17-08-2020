@@ -13,7 +13,11 @@ import { Context as WeatherContext } from '../context/WeatherContext';
 import CurrentStatus from '../components/CurrentStatus'
 import ToggleFavoritesButton from '../components/ToggleFavoritesButton'
 import ToggleTempUnitsButton from '../components/ToggleTempUnitsButton'
+import SetGeolocationButton from '../components/SetGeolocationButton'
 import AsyncStorage from '@react-native-community/async-storage'
+import WeatherApi from '../api/weatherApi'
+
+import { theme1 } from '../resources'
 
 
 
@@ -25,10 +29,11 @@ const MainScreen = () => {
         updateFavorites
     } = useContext(WeatherContext)
 
+    const theme = theme1
     
     useEffect(() => {
         loadFavorites()
-        setCurrentLocation(jerusalemLocationExample)
+        setInitialLocation()
     }, []);
 
     useEffect(() => {
@@ -48,29 +53,47 @@ const MainScreen = () => {
           }
     }
     
+    const setInitialLocation = async () => {
+        const currentGeopositionLoc = await WeatherApi.getGeopositionSearch()
+        setCurrentLocation(currentGeopositionLoc?.Key ? currentGeopositionLoc : jerusalemLocationExample)
+    }
     
-    return <SafeAreaView style={styles.container}>
+    return <SafeAreaView style={[styles.container, { backgroundColor: theme.mainBackground }]}>
         <ScrollView>
             <SearchInput />
 
             <View style={styles.bodyContainer}>
 
-                <View style={styles.mainFrame}>
-                    <View style={styles.headContainer}>
-                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                        <View style={{ marginRight: 20}}>
-                            <Text style={styles.locationNameHeader}>{ currentLocation?.LocalizedName || null }</Text>
-                            <Text style={styles.locationNameSecondary}>{ currentLocation?.Country?.LocalizedName || null }</Text>
+                <View style={[styles.mainFrame, { borderColor: theme.borders }]}>
+                    <View style={[styles.headContainer, { borderBottomColor: theme.borders}]}>
+
+                        {/* <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', borderColor: 'red', borderWidth: 1}}> */}
+                            <View style={{ flex: 1}}>
+                                <Text style={[styles.locationNameHeader, { color: theme.titles}]}>{ currentLocation?.LocalizedName || null }</Text>
+                                <Text style={[styles.locationNameSecondary, { color: theme.subtitles}]}>{ currentLocation?.Country?.LocalizedName || null }</Text>
+                            </View>
+                            
+                            {/* <View style={{ height: 40, width: 40 }}>
+                                <ToggleFavoritesButton />
+                            </View> */}
+                        {/* </View> */}
+                        
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                            
+
+                            <View style={{ height: 40, width: 40 }}>
+                                <ToggleFavoritesButton />
+                            </View>
+                            
+                            <View style={{ height: 40, width: 40 }}>
+                                <SetGeolocationButton />
+                            </View>
+                            <View style={{ height: 40, width: 70 }}>
+                                <ToggleTempUnitsButton />
+                            </View>
                         </View>
                         
-                        <View style={{ height: 40, width: 40 }}>
-                            <ToggleFavoritesButton />
-                        </View>
-                        </View>
 
-                        <View style={{ height: 40, width: 70 }}>
-                            <ToggleTempUnitsButton />
-                        </View>
                     </View>
 
                     <CurrentStatus />
@@ -100,7 +123,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 10,
         marginTop: 20,
-        backgroundColor: '#B2F3E8',
     },
     bodyContainer: {
         flex: 1,
@@ -115,7 +137,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderBottomColor: 'gray',
+        
         borderBottomWidth: 1,
         paddingBottom: 10
     },
@@ -149,10 +171,9 @@ const styles = StyleSheet.create({
     locationNameSecondary: {
         flex: 1,
         fontSize: 20,
-        color: 'gray'
+        
     },
     mainFrame: {
-        borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 10,
         paddingHorizontal: 10,

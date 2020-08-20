@@ -2,13 +2,16 @@ import React, { useContext } from 'react'
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { Context as WeatherContext } from '../context/WeatherContext'
 import { Text, Button, Input } from 'react-native-elements'
-import { iconImages } from '../resources/images'
+import { iconImages } from '../resources'
 import { UNIT_CELSIUS, UNIT_FAHRENHEIT } from '../constants'
 import { fahr2Celc, cels2Fahr } from '../commonTools'
 
+import { theme1 } from '../resources'
 
 const CurrentStatus = (props) => {
     const { state: { tempUnit, currentConditions } } = useContext(WeatherContext)
+
+    const theme = theme1
 
     const tempInFahrenheit = currentConditions?.Temperature?.Imperial?.Value
     const tempToDisplay = tempInFahrenheit ? (tempUnit === UNIT_FAHRENHEIT ? tempInFahrenheit : fahr2Celc(tempInFahrenheit)) : 'No Temperature Data...'
@@ -20,8 +23,8 @@ const CurrentStatus = (props) => {
                 
 
                 <View style={styles.leftContainer}>
-                    <Text style={styles.currently}>CURRENTLY</Text>
-                    <Text style={styles.currentTemp} >{tempToDisplay}°</Text>
+                    <Text style={[styles.currently, { color: theme.titles }]}>CURRENTLY</Text>
+                    <Text style={[styles.currentTemp, { color: theme.mainTemperature }]} >{tempToDisplay}°</Text>
                     
                 </View>
 
@@ -79,11 +82,12 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     currentTemp: { 
-        fontSize: 90,
-        color: '#50B2AF'
+        fontSize: 80,
+        
     },
     currently: {
         fontSize: 20,
+        
         // borderWidth: 1,
         // borderColor: 'red'
     }

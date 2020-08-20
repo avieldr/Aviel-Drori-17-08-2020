@@ -3,13 +3,14 @@ import { StyleSheet, View, TouchableOpacity, Text, Image } from 'react-native'
 import { Input } from 'react-native-elements'
 import { Context as WeatherContext } from '../context/WeatherContext'
 import { weekDaysStr, monthNames, UNIT_CELSIUS, UNIT_FAHRENHEIT } from '../constants'
-import { iconImages } from '../resources/images'
+import { iconImages } from '../resources'
 import { fahr2Celc, cels2Fahr } from '../commonTools'
+import { theme1 } from '../resources'
 
 const ForecastsList = () => {
     const { state: { fiveDaysForecasts, tempUnit } } = useContext(WeatherContext)
 
-    
+    const theme = theme1
     const renderForecastItem = (item) => {
         const date = new Date(item.Date)
         const weekDay = weekDaysStr[date.getDay()]
@@ -17,11 +18,11 @@ const ForecastsList = () => {
         const month = date.getMonth()
         const minTemp = item.Temperature.Minimum
         const maxTemp = item.Temperature.Maximum
-        return <View key={item.EpochDate} style={styles.item}>
+        return <View key={item.EpochDate} style={[styles.item, { borderTopColor: theme.borders }]}>
 
             <View style={styles.dateContainer}>
                 <Text >{weekDay}, {day} {monthNames[month]}</Text>
-                <Text style={{ color: 'gray'}}>{item.Day.IconPhrase}</Text>
+                <Text style={{ color: theme.subtitles }}>{item.Day.IconPhrase}</Text>
             </View>
             
             
@@ -37,8 +38,8 @@ const ForecastsList = () => {
                 />
 
                 <View style={styles.tempRange}>
-                <Text>{tempUnit === UNIT_FAHRENHEIT ? maxTemp.Value : fahr2Celc(maxTemp.Value)}° {maxTemp.Unit}</Text>
-                <Text style={{ color: 'gray'}}>{tempUnit === UNIT_FAHRENHEIT ? minTemp.Value : fahr2Celc(minTemp.Value)}° {minTemp.Unit}</Text>
+                <Text>{tempUnit === UNIT_FAHRENHEIT ? maxTemp.Value : fahr2Celc(maxTemp.Value)}°</Text>
+                <Text style={{ color: theme.subtitles}}>{tempUnit === UNIT_FAHRENHEIT ? minTemp.Value : fahr2Celc(minTemp.Value)}°</Text>
                 
             </View>
             </View>
@@ -74,7 +75,6 @@ const styles = StyleSheet.create({
         // borderBottomWidth: 1,
         paddingTop: 10,
         paddingLeft: 5,
-        borderTopColor: 'gray'
         // borderBottomColor: 'gray'
     },
     tempRange: {

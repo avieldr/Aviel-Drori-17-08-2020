@@ -4,12 +4,18 @@ import { defaultApiKey } from './config'
 import axios from 'axios'
 import { errors } from '../constants'
 // import { AsyncStorage } from 'react-native';
+import * as Location from 'expo-location';
 
-const mock = false
+const mock = true
 class WeatherApi {
 
     constructor() {
         this.apiKey = defaultApiKey
+
+        this.autoCompleteCancelToken = undefined
+        this.dailyForecastsCancelToken = undefined
+        this.geopositionSearchCancelToken = undefined
+
         this.instance =  axios.create({
             baseURL: 'http://dataservice.accuweather.com'           
         });
@@ -22,16 +28,19 @@ class WeatherApi {
         this.instance.interceptors.response.use(
             res => res,
             err => {
-
+                if (axios.isCancel(err)) {
+                    return
+                }
                 if (!err.response) {
                     Alert.alert("Error", err.message)
                 } else {
-                    switch (err.response.status.toString()) {
+                    const errStatusStr = err.response.status.toString()
+                    switch (errStatusStr) {
                         case '503':
                             Alert.alert(errors['503'].title, errors['503'].message)
                             break
                         default:
-                            Alert.alert("Error", err.message)
+                            Alert.alert("Error - " + errStatusStr, err.message)
                     }   
                 }
         
@@ -40,42 +49,13 @@ class WeatherApi {
         )
     }
 
-    
-    getAdminAreaList = async () => {
-
-        try {
-            if (mock)
-            {
-                var jsonFromFile = require('../../api_queries_outputs/AdminAreaList-country-.json')
-                return jsonFromFile
-            }
-   
-            const response = await this.instance.get(`/locations/v1/adminareas/${countryCode}?apikey=${this.apiKey}`);
-            console.log('getAdminAreaList responded!')
-            return response.data
-        } catch (error) {
-            console.log('getAdminAreaList error: ', error)
-        }
-    }
-
-    getCitySearch = async (query) => {
-
-        try {
-            if (mock)
-            {
-                var jsonFromFile = require('../../api_queries_outputs/CitySearch-jerusalem-.json')
-                return jsonFromFile
-            }
-        
-            const response = await this.instance.get(`/locations/v1/cities/search?apikey=${this.apiKey}&q=${query}`);
-            console.log('getCitySearch responded!')
-            return response.data
-        } catch (error) {
-            console.log('getCitySearch error: ', error)
-        }
-    }
 
     getAutocompleteSearch = async (query) => {
+
+        if (typeof this.autoCompleteCancelToken != typeof undefined) {
+            this.autoCompleteCancelToken.cancel("Operation canceled due to new request.");
+        }
+        this.autoCompleteCancelToken = axios.CancelToken.source()
 
         try {
             
@@ -84,10 +64,12 @@ class WeatherApi {
                 var jsonFromFile = require('../../api_queries_outputs/AutoComplete-jeru-.json')
                 return jsonFromFile
             }
-        
-            const response = await this.instance.get(`/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${query}`);
+            const response = await this.instance.get(
+                `/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${query}`,
+                { cancelToken: this.autoCompleteCancelToken.token }
+                )
             console.log('getAutocompleteSearch responded!')
-            return response.data
+            return response?.data
 
         } catch (error) {
             console.log('getAutocompleteSearch error: ', error.message)
@@ -103,9 +85,11 @@ class WeatherApi {
                 var jsonFromFile = require('../../api_queries_outputs/CurrentConditions-213225-.json')
                 return jsonFromFile
             }
-            const response = await this.instance.get(`/currentconditions/v1/${locationKey}?apikey=${this.apiKey}&details=${details}`);
+            const response = await this.instance.get(
+                `/currentconditions/v1/${locationKey}?apikey=${this.apiKey}&details=${details}`,
+            )
             console.log('getCurrentConditions responded!')
-            return response.data
+            return response?.data
 
         } catch (error) {
             console.log('getCurrentConditions error: ', error)
@@ -113,6 +97,12 @@ class WeatherApi {
     }
 
     get5DaysDailyForecasts = async (locationKey, details=false) => {
+
+        if (typeof this.dailyForecastsCancelToken != typeof undefined) {
+            this.dailyForecastsCancelToken.cancel("Operation canceled due to new request.");
+        }
+        this.dailyForecastsCancelToken = axios.CancelToken.source()
+
         try {
             
             if (mock)
@@ -121,11 +111,42 @@ class WeatherApi {
                 return jsonFromFile
             }
   
-            const response = await this.instance.get(`/forecasts/v1/daily/5day/${locationKey}?apikey=${this.apiKey}&details=${details}`);
+            const response = await this.instance.get(
+                `/forecasts/v1/daily/5day/${locationKey}?apikey=${this.apiKey}&details=${details}`,
+                { cancelToken: this.dailyForecastsCancelToken.token }
+            )
             console.log('get5DaysDailyForecasts responded!')
-            return response.data
+            return response?.data
         } catch (error) {
             console.log('get5DaysDailyForecasts error: ', error)
+        }
+    }
+
+    getGeopositionSearch = async () => {
+
+        if (typeof this.geopositionSearchCancelToken != typeof undefined) {
+            this.geopositionSearchCancelToken.cancel("Operation canceled due to new request.");
+        }
+        this.geopositionSearchCancelToken = axios.CancelToken.source()
+
+        try {
+            
+            let { status } = await Location.requestPermissionsAsync();
+            if (status !== 'granted') {
+                console.log('Permission to access location was denied');
+            }
+      
+            const location = await Location.getCurrentPositionAsync({});
+            const query = `${location.coords.latitude},${location.coords.longitude}`
+            const response = await this.instance.get(
+                `/locations/v1/cities/geoposition/search?apikey=${this.apiKey}&q=${query}`,
+                { cancelToken: this.geopositionSearchCancelToken.token }
+                )
+            console.log('getGeopositionSearch responded!')
+            return response?.data
+
+        } catch (error) {
+            console.log('getGeopositionSearch error: ', error.message)
         }
     }
 
