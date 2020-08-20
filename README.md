@@ -22,3 +22,4 @@ enables to toggle between light/dark theme colors.
 ![](weatherMe/screenshots/Screenshot_20200821-015335_Expo.jpg =250x)
 
 
+<img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015335_Expo.jpg" width="200"  />
