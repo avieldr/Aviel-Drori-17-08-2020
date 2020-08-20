@@ -6,7 +6,7 @@ import { errors } from '../constants'
 // import { AsyncStorage } from 'react-native';
 import * as Location from 'expo-location';
 
-const mock = true
+const mock = false
 class WeatherApi {
 
     constructor() {

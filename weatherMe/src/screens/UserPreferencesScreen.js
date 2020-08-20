@@ -24,8 +24,7 @@ const UserPreferencesScreen = () => {
         
 
             <Button 
-            color='white'
-            title='Tggle Theme Color'
+            title='Toggle Theme Color'
             onPress={() => toggleThemeColor()}
         />
             
