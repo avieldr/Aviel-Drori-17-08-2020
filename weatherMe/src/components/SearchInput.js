@@ -4,18 +4,16 @@ import { Input } from 'react-native-elements'
 import WeatherApi from '../api/weatherApi'
 import { Feather } from '@expo/vector-icons'
 import { Context as WeatherContext } from '../context/WeatherContext'; 
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 
 
 const SearchInput = () => {
 
     const [state, setState] = useState({ searchQuery: '', searchSuggestions: [], modalVisible: false})
-    const {
-        setCurrentLocation,
-    } = useContext(WeatherContext)
+    const { state: { themePreference }, setCurrentLocation } = useContext(WeatherContext)
 
-    const theme = theme1
+    const theme = themePreference ? theme1 : theme2
     const minPrefLenToSuggest = 3
     
     useEffect(() => {

@@ -3,16 +3,16 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-elements'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Context as WeatherContext } from '../context/WeatherContext'
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 
 import { UNIT_FAHRENHEIT, UNIT_CELSIUS } from '../constants'
 
 
 const ToggleFavoritesButton = () => {
-    const { state: { tempUnit }, toggleTempUnits } = useContext(WeatherContext)
+    const { state: { tempUnit, themePreference }, toggleTempUnits } = useContext(WeatherContext)
 
-    const theme = theme1
+    const theme = themePreference ? theme1 : theme2
     return (
                 
                 <TouchableOpacity

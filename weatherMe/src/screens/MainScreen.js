@@ -17,19 +17,19 @@ import SetGeolocationButton from '../components/SetGeolocationButton'
 import AsyncStorage from '@react-native-community/async-storage'
 import WeatherApi from '../api/weatherApi'
 
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 
 
 const MainScreen = () => {
-    const { state: { currentLocation, currentConditions, favoritesList },
+    const { state: { currentLocation, currentConditions, favoritesList, themePreference },
         setCurrentLocation,
         getCurrentConditions,
         get5DaysDailyForecasts,
         updateFavorites
     } = useContext(WeatherContext)
 
-    const theme = theme1
+    const theme = themePreference ? theme1 : theme2
     
     useEffect(() => {
         loadFavorites()

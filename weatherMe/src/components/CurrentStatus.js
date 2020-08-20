@@ -6,12 +6,12 @@ import { iconImages } from '../resources'
 import { UNIT_CELSIUS, UNIT_FAHRENHEIT } from '../constants'
 import { fahr2Celc, cels2Fahr } from '../commonTools'
 
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 const CurrentStatus = (props) => {
-    const { state: { tempUnit, currentConditions } } = useContext(WeatherContext)
+    const { state: { tempUnit, currentConditions, themePreference } } = useContext(WeatherContext)
 
-    const theme = theme1
+    const theme = themePreference ? theme1 : theme2
 
     const tempInFahrenheit = currentConditions?.Temperature?.Imperial?.Value
     const tempToDisplay = tempInFahrenheit ? (tempUnit === UNIT_FAHRENHEIT ? tempInFahrenheit : fahr2Celc(tempInFahrenheit)) : 'No Temperature Data...'
@@ -29,7 +29,7 @@ const CurrentStatus = (props) => {
                 </View>
 
                 <View style={styles.rightContainer}>
-                <Text style={styles.weatherText}>{currentConditions.WeatherText}</Text>
+                <Text style={[styles.weatherText, { color: theme.titles}]}>{currentConditions.WeatherText}</Text>
                     <Image 
                         source={ iconImages[currentConditions.WeatherIcon] }
                         style={styles.imageStyle}

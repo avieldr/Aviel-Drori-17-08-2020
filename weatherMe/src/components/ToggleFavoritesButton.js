@@ -3,15 +3,15 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-elements'
 import { FontAwesome } from '@expo/vector-icons'
 import { Context as WeatherContext } from '../context/WeatherContext'
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 
 
 
 const ToggleFavoritesButton = () => {
-    const { state: { favoritesList, currentLocation }, updateFavorites } = useContext(WeatherContext)
+    const { state: { favoritesList, currentLocation, themePreference }, updateFavorites } = useContext(WeatherContext)
 
-    const theme = theme1
+    const theme = themePreference ? theme1 : theme2
 
     if (!currentLocation?.Key) return null
     

@@ -3,12 +3,14 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Context as WeatherContext } from '../context/WeatherContext'
 import WeatherApi from '../api/weatherApi'
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 const SetGeolocationButton = () => {
 
-    const theme = theme1
-    const { setCurrentLocation } = useContext(WeatherContext)
+    
+    const { setCurrentLocation, state: { themePreference } } = useContext(WeatherContext)
+
+    const theme = themePreference ? theme1 : theme2
     return (
                 
         <TouchableOpacity

@@ -5,14 +5,14 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import MainScreen from './src/screens/MainScreen';
 import FavoritesScreen from './src/screens/FavoritesScreen';
-import DebugScreen from './src/screens/DebugScreen';
+import UserPreferencesScreen from './src/screens/UserPreferencesScreen';
 
 import { Provider as WeatherProvider } from './src/context/WeatherContext';
 
 const tabNavigator =  createBottomTabNavigator({
   Main: MainScreen,
   Favorites: FavoritesScreen,
-  Debug: DebugScreen
+  UserPreferences: UserPreferencesScreen
 })
 
 

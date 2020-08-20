@@ -52,7 +52,24 @@ const theme1 = {
     searchBar: 'gray',
     mainTemperature: '#50B2AF',
     borders: 'gray',
-    favoritesBottomBackground: '#B2F3E8'
+    favoritesBottomBackground: '#B2F3E8',
+    favoritesButton: '#3D6290',
+    favoritesBackground: 'white'
 }
 
-export { iconImages, theme1 }
+const theme2 = {
+    mainBackground: '#402B2A',
+    titles: 'white',
+    subtitles: 'gray',
+    activeButton: '#E3CAC7',
+    inactiveButton: '#2B110F',
+    searchBar: 'gray',
+    mainTemperature: '#F59085',
+    borders: 'gray',
+    favoritesBottomBackground: '#49403F',
+    favoritesButton: '#2B110F',
+    favoritesBackground: '#BFBABA'
+
+}
+
+export { iconImages, theme1, theme2 }

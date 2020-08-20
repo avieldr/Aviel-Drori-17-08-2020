@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-navigation'
 import { FontAwesome } from '@expo/vector-icons'
 import { Context as WeatherContext } from '../context/WeatherContext'
 import LocItem from '../components/FavoritesLocThumbnail'
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 const FavoritesScreen = ({ navigation }) => {
-    const { state: { favoritesList } } = useContext(WeatherContext)
+    const { state: { favoritesList, themePreference } } = useContext(WeatherContext)
     
-    const theme = theme1
+    const theme = themePreference ? theme1 : theme2
     
     const renderItem = ({ item }) => {
         return <LocItem 
@@ -18,10 +18,10 @@ const FavoritesScreen = ({ navigation }) => {
         />
     }
 
-    return <SafeAreaView style={styles.container}>
+    return <SafeAreaView style={[styles.container, { backgroundColor: theme.favoritesBackground }]}>
 
             <View style={[styles.headerContainer, { borderBottomColor: theme.borders }]}>
-                <Text style={styles.headerText}>SAVED LOCATIONS</Text>
+                <Text style={[styles.headerText, { color: theme.titles }]}>SAVED LOCATIONS</Text>
             </View>
             {
                 (Array.isArray(favoritesList) && favoritesList.length)
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 40,
+        
         
     },
     headerContainer: {

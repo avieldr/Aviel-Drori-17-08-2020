@@ -5,12 +5,12 @@ import { Context as WeatherContext } from '../context/WeatherContext'
 import { weekDaysStr, monthNames, UNIT_CELSIUS, UNIT_FAHRENHEIT } from '../constants'
 import { iconImages } from '../resources'
 import { fahr2Celc, cels2Fahr } from '../commonTools'
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 const ForecastsList = () => {
-    const { state: { fiveDaysForecasts, tempUnit } } = useContext(WeatherContext)
+    const { state: { fiveDaysForecasts, tempUnit, themePreference } } = useContext(WeatherContext)
 
-    const theme = theme1
+    const theme = themePreference ? theme1 : theme2
     const renderForecastItem = (item) => {
         const date = new Date(item.Date)
         const weekDay = weekDaysStr[date.getDay()]
@@ -21,7 +21,7 @@ const ForecastsList = () => {
         return <View key={item.EpochDate} style={[styles.item, { borderTopColor: theme.borders }]}>
 
             <View style={styles.dateContainer}>
-                <Text >{weekDay}, {day} {monthNames[month]}</Text>
+                <Text style={{ color: theme.titles }}>{weekDay}, {day} {monthNames[month]}</Text>
                 <Text style={{ color: theme.subtitles }}>{item.Day.IconPhrase}</Text>
             </View>
             
@@ -38,7 +38,7 @@ const ForecastsList = () => {
                 />
 
                 <View style={styles.tempRange}>
-                <Text>{tempUnit === UNIT_FAHRENHEIT ? maxTemp.Value : fahr2Celc(maxTemp.Value)}°</Text>
+                <Text style={{ color: theme.titles}}>{tempUnit === UNIT_FAHRENHEIT ? maxTemp.Value : fahr2Celc(maxTemp.Value)}°</Text>
                 <Text style={{ color: theme.subtitles}}>{tempUnit === UNIT_FAHRENHEIT ? minTemp.Value : fahr2Celc(minTemp.Value)}°</Text>
                 
             </View>

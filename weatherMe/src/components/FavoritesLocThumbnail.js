@@ -6,16 +6,16 @@ import { iconImages } from '../resources'
 import { Context as WeatherContext } from '../context/WeatherContext'
 import { UNIT_CELSIUS, UNIT_FAHRENHEIT } from '../constants'
 import { fahr2Celc, cels2Fahr } from '../commonTools'
-import { theme1 } from '../resources'
+import { theme1, theme2 } from '../resources'
 
 const FavoritesLocThumbnail = (props) => {
     
     const { currentItem, nav } = props
     const [data, setData] = useState('')
 
-    const theme = theme1
+    
 
-    const { state: { favoritesList, tempUnit }, setCurrentLocation, updateFavorites } = useContext(WeatherContext)
+    const { state: { favoritesList, tempUnit, themePreference }, setCurrentLocation, updateFavorites } = useContext(WeatherContext)
     useEffect(() => {
         getCurrentLocData()
     }, []);
@@ -25,6 +25,8 @@ const FavoritesLocThumbnail = (props) => {
         if (!res) return
         setData(res[0])
     }
+
+    const theme = themePreference ? theme1 : theme2
 
     const removeFromFavorites = () => {
         const currentLocIdxInFavorites = favoritesList.findIndex(item => item.Key === currentItem.Key)
@@ -71,14 +73,14 @@ const FavoritesLocThumbnail = (props) => {
             style={styles.navButton}
             >
         
-                <EvilIcons name="arrow-right" size={40} color={theme.activeButton}/>
+                <EvilIcons name="arrow-right" size={40} color={theme.favoritesButton}/>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={onRemoveItemPressed}
             style={styles.navButton}
             >
         
-                <EvilIcons name="close-o" size={40} color={theme.activeButton}/>
+                <EvilIcons name="close-o" size={40} color={theme.favoritesButton}/>
             </TouchableOpacity>
         </View>
 
