@@ -14,12 +14,11 @@ has the ability to remove items from the list and set item as main location on t
 ## 3. User Preferences - 
 enables to toggle between light/dark theme colors.
 
-![](weatherMe/screenshots/Screenshot_20200821-015349_Expo.jpg =250x)
-![](weatherMe/screenshots/Screenshot_20200821-015413_Expo.jpg =250x)
-![](weatherMe/screenshots/Screenshot_20200821-015435_Expo.jpg =250x)
-![](weatherMe/screenshots/Screenshot_20200821-015440_Expo.jpg =250x)
-![](weatherMe/screenshots/Screenshot_20200821-015506_Expo.jpg =250x)
-![](weatherMe/screenshots/Screenshot_20200821-015335_Expo.jpg =250x)
-
-
 <img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015335_Expo.jpg" width="200"  />
+<img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015349_Expo.jpg" width="200"  />
+
+<img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015413_Expo.jpg" width="200"  />
+<img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015435_Expo.jpg" width="200"  />
+
+<img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015440_Expo.jpg" width="200"  />
+<img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015506_Expo.jpg" width="200"  />
