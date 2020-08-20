@@ -17,6 +17,7 @@ The app consists of three screens: Main, Favorites and User-Preferences
 ## 2. Favorites screen - displays the favorites list with their current weather brief. 
     has the ability to remove items from the list and set item as main location on the main screen.
 <img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015413_Expo.jpg" width="200"  />
+
 ## 3. User Preferences - 
     enables to toggle between light/dark theme colors.
 <img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015506_Expo.jpg" width="200"  />
