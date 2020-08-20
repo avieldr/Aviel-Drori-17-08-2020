@@ -4,6 +4,10 @@ This project is a simple weather application with react-native.
 
 The app consists of three screens: Main, Favorites and User-Preferences
 
+## Important:
+    App makes use on a free weather apiKey which allows limited daily use.
+    when max limit reached, the app will display an error message 503 - service not available
+    
 ## 1. Main screen - For a given location, it displays the current weather and a five-day-daily-forecast.
     is allows to search location with auto-complete, save/remove a location to/from favorites,
     set location using device's location services and toggeling between Celsius to Fahrenheit display
