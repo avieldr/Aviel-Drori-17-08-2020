@@ -26,7 +26,7 @@ The app consists of three screens: Main, Favorites and User-Preferences
 <img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015413_Expo.jpg" width="200"  />
 
 ## 3. User Preferences - 
-    enables to toggle between light/dark theme colors.
+    enables to toggle between light/dark theme colors, enables changing the apiKey (select from exists or insert manually).
     
-    
+<img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200901-170758_Expo.jpg" width="200"  />
 <img src="https://github.com/avieldr/Aviel-Drori-17-08-2020/blob/master/weatherMe/screenshots/Screenshot_20200821-015506_Expo.jpg" width="200"  />
