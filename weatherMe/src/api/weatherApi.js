@@ -1,17 +1,16 @@
 import React from 'react'
 import { Alert } from 'react-native'
-import { defaultApiKey } from './config'
+import { key1, key2, key3 } from './config'
 import axios from 'axios'
+
 import { errors } from '../constants'
-// import { AsyncStorage } from 'react-native';
 import * as Location from 'expo-location';
 
-const mock = false
 class WeatherApi {
 
     constructor() {
-        this.apiKey = defaultApiKey
 
+        this.apiKey = key3
         this.autoCompleteCancelToken = undefined
         this.dailyForecastsCancelToken = undefined
         this.geopositionSearchCancelToken = undefined
@@ -39,6 +38,9 @@ class WeatherApi {
                         case '503':
                             Alert.alert(errors['503'].title, errors['503'].message)
                             break
+                        case '401':
+                            Alert.alert(errors['401'].title, errors['401'].message)
+                            break
                         default:
                             Alert.alert("Error - " + errStatusStr, err.message)
                     }   
@@ -49,7 +51,6 @@ class WeatherApi {
         )
     }
 
-
     getAutocompleteSearch = async (query) => {
 
         if (typeof this.autoCompleteCancelToken != typeof undefined) {
@@ -59,16 +60,10 @@ class WeatherApi {
 
         try {
             
-            if (mock)
-            {
-                var jsonFromFile = require('../../api_queries_outputs/AutoComplete-jeru-.json')
-                return jsonFromFile
-            }
             const response = await this.instance.get(
                 `/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${query}`,
                 { cancelToken: this.autoCompleteCancelToken.token }
                 )
-            console.log('getAutocompleteSearch responded!')
             return response?.data
 
         } catch (error) {
@@ -79,16 +74,8 @@ class WeatherApi {
     getCurrentConditions = async (locationKey, details=false) => {
         
         try {
-            
-            if (mock)
-            {
-                var jsonFromFile = require('../../api_queries_outputs/CurrentConditions-213225-.json')
-                return jsonFromFile
-            }
-            const response = await this.instance.get(
-                `/currentconditions/v1/${locationKey}?apikey=${this.apiKey}&details=${details}`,
-            )
-            console.log('getCurrentConditions responded!')
+
+            const response = await this.instance.get(`/currentconditions/v1/${locationKey}?apikey=${this.apiKey}&details=${details}`)
             return response?.data
 
         } catch (error) {
@@ -104,12 +91,6 @@ class WeatherApi {
         this.dailyForecastsCancelToken = axios.CancelToken.source()
 
         try {
-            
-            if (mock)
-            {
-                var jsonFromFile = require('../../api_queries_outputs/5DaysDailyForecasts-213225-.json')
-                return jsonFromFile
-            }
   
             const response = await this.instance.get(
                 `/forecasts/v1/daily/5day/${locationKey}?apikey=${this.apiKey}&details=${details}`,
@@ -135,21 +116,42 @@ class WeatherApi {
             if (status !== 'granted') {
                 console.log('Permission to access location was denied');
             }
-      
+
             const location = await Location.getCurrentPositionAsync({});
             const query = `${location.coords.latitude},${location.coords.longitude}`
             const response = await this.instance.get(
                 `/locations/v1/cities/geoposition/search?apikey=${this.apiKey}&q=${query}`,
                 { cancelToken: this.geopositionSearchCancelToken.token }
-                )
-            console.log('getGeopositionSearch responded!')
-            return response?.data
+            )
 
+            return response?.data
         } catch (error) {
             console.log('getGeopositionSearch error: ', error.message)
         }
     }
 
+    setApiKey = (newKey) => {
+        switch (newKey) {
+            case 1:
+                this.apiKey = key1
+                console.log("1", this.apiKey)
+    
+                break
+            case 2:
+                this.apiKey = key2
+                console.log("2", this.apiKey)
+
+                break
+            case 3:
+                this.apiKey = key3
+                console.log("3", this.apiKey)
+
+                break
+            default:
+                this.apiKey = newKey
+                console.log("4", this.apiKey)
+        }
+    }
 }
 
 const apiInstance = new WeatherApi()

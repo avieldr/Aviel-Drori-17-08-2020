@@ -5,13 +5,14 @@ export const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug
 export const UNIT_CELSIUS = 'C'
 export const UNIT_FAHRENHEIT = 'F'
 
-
-
-
 export const errors = {
     '503': {
         title: "Error 503 - Service Unavailable",
-        message: "AccuWeather Api server temporarily unable to handle the request. This may be due to the current apiKey has reached its max limit requests."
+        message: "AccuWeather Api server temporarily unable to handle the request. This may be due to the current apiKey has reached its max limit requests.\nYou can replace the key in 'Preferences' section."
+    },
+    '401': {
+        title: "Error 401 - Service Unauthorized",
+        message: "This may be due to an incorrect/invalid apiKey.\nYou can replace the key in 'Preferences' section."
     }
 }
 
